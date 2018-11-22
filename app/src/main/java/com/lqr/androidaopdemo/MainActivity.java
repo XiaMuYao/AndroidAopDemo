@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     @TestAnnoTrace(value = "lqr_test", type = 1)
     public void test(View view) {
         System.out.println("Hello, I am CSDN_LQR");
-        int a = 1 / 0;
+        int a =20/2;
+        System.out.println(a+"");
     }
+
 }

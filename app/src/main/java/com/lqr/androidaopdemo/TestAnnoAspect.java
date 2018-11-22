@@ -1,5 +1,7 @@
 package com.lqr.androidaopdemo;
 
+import android.os.SystemClock;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -9,6 +11,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+
+import java.lang.reflect.Method;
 
 @Aspect
 public class TestAnnoAspect {
@@ -27,23 +32,23 @@ public class TestAnnoAspect {
     @Around("pointcut()")
     public void around(ProceedingJoinPoint joinPoint) throws Throwable {
         System.out.println("@Around");
-//        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-//        String name = signature.getName(); // 方法名：test
-//        Method method = signature.getMethod(); // 方法：public void com.lqr.androidaopdemo.MainActivity.test(android.view.View)
-//        Class returnType = signature.getReturnType(); // 返回值类型：void
-//        Class declaringType = signature.getDeclaringType(); // 方法所在类名：MainActivity
-//        String[] parameterNames = signature.getParameterNames(); // 参数名：view
-//        Class[] parameterTypes = signature.getParameterTypes(); // 参数类型：View
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        String name = signature.getName(); // 方法名：test
+        Method method = signature.getMethod(); // 方法：public void com.lqr.androidaopdemo.MainActivity.test(android.view.View)
+        Class returnType = signature.getReturnType(); // 返回值类型：void
+        Class declaringType = signature.getDeclaringType(); // 方法所在类名：MainActivity
+        String[] parameterNames = signature.getParameterNames(); // 参数名：view
+        Class[] parameterTypes = signature.getParameterTypes(); // 参数类型：View
 
-//        TestAnnoTrace annotation = method.getAnnotation(TestAnnoTrace.class);
-//        String value = annotation.value();
-//        int type = annotation.type();
+        TestAnnoTrace annotation = method.getAnnotation(TestAnnoTrace.class);
+        String value = annotation.value();
+        int type = annotation.type();
 
-//        long beginTime = SystemClock.currentThreadTimeMillis();
+        long beginTime = SystemClock.currentThreadTimeMillis();
         joinPoint.proceed();
-//        long endTime = SystemClock.currentThreadTimeMillis();
-//        long dx = endTime - beginTime;
-//        System.out.println("耗时：" + dx + "ms");
+        long endTime = SystemClock.currentThreadTimeMillis();
+        long dx = endTime - beginTime;
+        System.out.println("耗时：" + dx + "ms");
     }
 
     @After("pointcut()")
