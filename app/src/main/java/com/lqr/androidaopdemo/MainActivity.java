@@ -2,6 +2,7 @@ package com.lqr.androidaopdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,11 +13,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @TestAnnoTrace(value = "lqr_test", type = 1)
+    @IsLogin()
     public void test(View view) {
-        System.out.println("Hello, I am CSDN_LQR");
-        int a =20/2;
-        System.out.println(a+"");
+
+        Log.d("XiaMuYao", "test: 我是登录之后的操作");
     }
 
 }

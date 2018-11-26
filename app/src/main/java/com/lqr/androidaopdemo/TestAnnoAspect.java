@@ -1,6 +1,7 @@
 package com.lqr.androidaopdemo;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,53 +19,49 @@ import java.lang.reflect.Method;
 @Aspect
 public class TestAnnoAspect {
 
-    //    @Pointcut("execution(* com.lqr.androidaopdemo.MainActivity.test(..))")
-    @Pointcut("execution(@com.lqr.androidaopdemo.TestAnnoTrace * *(..))")
+    // TODO: 2018/11/26 这里你要修改成你项目里面这个类的地址
+
+    @Pointcut("execution(@com.lqr.androidaopdemo.IsLogin * *(..))")
     public void pointcut() {
 
     }
 
     @Before("pointcut()")
     public void before(JoinPoint point) {
-        System.out.println("@Before");
     }
 
     @Around("pointcut()")
     public void around(ProceedingJoinPoint joinPoint) throws Throwable {
-        System.out.println("@Around");
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        String name = signature.getName(); // 方法名：test
-        Method method = signature.getMethod(); // 方法：public void com.lqr.androidaopdemo.MainActivity.test(android.view.View)
-        Class returnType = signature.getReturnType(); // 返回值类型：void
-        Class declaringType = signature.getDeclaringType(); // 方法所在类名：MainActivity
-        String[] parameterNames = signature.getParameterNames(); // 参数名：view
-        Class[] parameterTypes = signature.getParameterTypes(); // 参数类型：View
+        Log.d("XiaMuYao", "around: 方法触发之前被我拦截了");
+        Log.d("XiaMuYao", "around: 判断登录");
 
-        TestAnnoTrace annotation = method.getAnnotation(TestAnnoTrace.class);
-        String value = annotation.value();
-        int type = annotation.type();
+//        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+//        Method method = signature.getMethod();
+//        IsLogin annotation = method.getAnnotation(IsLogin.class);
+//
+//        String value = annotation.value();
+//        int type = annotation.type();
 
-        long beginTime = SystemClock.currentThreadTimeMillis();
-        joinPoint.proceed();
-        long endTime = SystemClock.currentThreadTimeMillis();
-        long dx = endTime - beginTime;
-        System.out.println("耗时：" + dx + "ms");
+        // TODO: 2018/11/26 这个判断是你要根据什么本地没有token什么的去做 是否登录了
+        if (false) {
+            //登录了 放行方法
+            joinPoint.proceed();
+        } else {
+            Log.d("XiaMuYao", "around: 去登陆的操作");
+        }
+
     }
 
     @After("pointcut()")
     public void after(JoinPoint point) {
-        System.out.println("@After");
     }
 
     @AfterReturning("pointcut()")
     public void afterReturning(JoinPoint point, Object returnValue) {
-        System.out.println("@AfterReturning");
     }
 
     @AfterThrowing(value = "pointcut()", throwing = "ex")
     public void afterThrowing(Throwable ex) {
-        System.out.println("@afterThrowing");
-        System.out.println("ex = " + ex.getMessage());
     }
 
 }
